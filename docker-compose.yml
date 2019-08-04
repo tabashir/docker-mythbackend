@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mythbackend:
+    build: .
+    environment:
+      - USER_ID=${MYTH_USER_ID}
+      - GROUP_ID=${MYTH_GROUP_ID}
+      - DATABASE_HOST=${MYTH_DB_HOST}
+      - DATABASE_PORT=3306
+      - DATABASE_ROOT=root
+      - DATABASE_ROOT_PWD=${MYTH_MYSQL_ROOT_PW}
+      - TZ=Europe/London
+    volumes:
+      - /var/lib/mythtv:/home/mythtv
+      - /local/myth/videos:/mnt/video
+      - /local/myth/recordings:/mnt/recordings
+      - /local/myth/db_backups:/var/lib/mythtv/db_backups
+    ports:
+      - "3389:3389"
+      - "5000:5000/udp"
+      - "6543:6543"
+      - "6544:6544"
+    hostname: mythdocker
+    restart: unless-stopped
