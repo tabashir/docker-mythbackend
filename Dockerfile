@@ -25,7 +25,7 @@ EXPOSE 3389 5000/udp 6543 6544
 
 
 # set volumes
-VOLUME /home/mythtv /var/lib/mythtv/db_backups /mnt/recordings /mnt/video
+VOLUME /home/mythtv /var/lib/mythtv
 
 # Add files
 COPY files /root/
@@ -77,7 +77,7 @@ RUN chown mythtv:mythtv /etc/mythtv/config.xml
 RUN chmod 660 /etc/mythtv/config.xml
 
 # install mythtv-backend, database and ping util
-RUN apt-get install -y --no-install-recommends mythtv-backend mythtv-database xmltv unzip mythtv-status iputils-ping
+RUN apt-get install -y --no-install-recommends mythtv-backend mythtv-database xmltv unzip mythtv-status iputils-ping xmltv-util
 
 # install mythweb
 RUN apt-get install \
@@ -100,15 +100,14 @@ RUN usermod -u ${USER_ID} mythtv && \
 usermod -g ${GROUP_ID} mythtv
 
 # create/place required files/folders
-RUN mkdir -p /home/mythtv/.mythtv /var/lib/mythtv /var/log/mythtv /root/.mythtv /mnt/recordings /mnt/video
+RUN mkdir -p /home/mythtv/.mythtv /var/lib/mythtv /var/log/mythtv /root/.mythtv
 
 # set a password for user mythtv and add to required groups
 RUN echo "mythtv:mythtv" | chpasswd && \
 usermod -s /bin/bash -d /home/mythtv -a -G users,mythtv,adm,sudo mythtv
 
 # set permissions for files/folders
-RUN chown -R mythtv:users /var/lib/mythtv /var/log/mythtv && \
-chown mythtv:users /mnt/recordings /mnt/video
+RUN chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /home/mythtv
 
 # set up passwordless sudo
 RUN echo '%adm ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/adm && \

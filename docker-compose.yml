@@ -11,10 +11,8 @@ services:
       - DATABASE_ROOT_PWD=${MYTH_MYSQL_ROOT_PW}
       - TZ=Europe/London
     volumes:
-      - /var/lib/mythtv:/home/mythtv
-      - /local/myth/videos:/mnt/video
-      - /local/myth/recordings:/mnt/recordings
-      - /local/myth/db_backups:/var/lib/mythtv/db_backups
+      - /home/mythtv:/home/mythtv
+      - /var/lib/mythtv:/var/lib/mythtv
     ports:
       - "3389:3389"
       - "5000:5000/udp"
