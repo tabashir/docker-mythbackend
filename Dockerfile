@@ -116,6 +116,12 @@ chmod 0440 /etc/sudoers.d/adm
 #Workaround for bug: https://bugreports.qt.io/browse/QTBUG-44938
 RUN echo 'XKB_DEFAULT_RULES=base' |tee -a /root/.bashrc |tee -a /home/mythtv/.bashrc
 
+#Workaround if /dev/dvb is owned by root:
+RUN usermod -a -G root mythtv
+#cat /etc/udev/rules.d/90-dvbdocker.rules
+#ATTRS{vendor}=="0x1ade", ATTRS{device}=="0x3038", RUN+="/bin/chown -R mythtv:users /dev/dvb"
+#SUBSYSTEM="dvb", RUN+="/bin/chown -R mythtv:users /dev/dvb"
+
 # clean up
 RUN apt-get clean && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
