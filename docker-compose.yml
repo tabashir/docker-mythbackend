@@ -10,6 +10,7 @@ services:
       - DATABASE_ROOT=root
       - DATABASE_ROOT_PWD=${MYTH_MYSQL_ROOT_PW}
       - TZ=Europe/London
+      - XKB_DEFAULT_RULES=base
     volumes:
       - /home/mythtv:/home/mythtv
       - /var/lib/mythtv:/var/lib/mythtv
@@ -20,3 +21,5 @@ services:
       - "6544:6544"
     hostname: mythdocker
     restart: unless-stopped
+    devices:
+      - "/dev/dvb:/dev/dvb"

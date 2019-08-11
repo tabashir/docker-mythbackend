@@ -113,6 +113,9 @@ RUN chown -R mythtv:users /var/lib/mythtv /var/log/mythtv /home/mythtv
 RUN echo '%adm ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/adm && \
 chmod 0440 /etc/sudoers.d/adm
 
+#Workaround for bug: https://bugreports.qt.io/browse/QTBUG-44938
+RUN echo 'XKB_DEFAULT_RULES=base' |tee -a /root/.bashrc |tee -a /home/mythtv/.bashrc
+
 # clean up
 RUN apt-get clean && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
